@@ -1,0 +1,34 @@
+{
+    "builders": [
+        {
+//            Each builder has a MANDATORY "type" field.
+            "type": "amazon-ebs",
+
+//            Because we chose a builder type of "amazon-ebs", there are a few other required fields:
+            "region": "us-west-2",
+            "source_ami": "ami-7cfe781c",
+            "instance_type": "t2.micro",
+            "ami_name": "MiddleTeir-{{isotime | clean_ami_name}}",
+
+//            Optional, but only used when amazon-erb builder type is used.
+            "ami_description": "Amazing AMI Designed by Brice Bentler",
+
+//            NEVER EVER HARD CODE THESE!!! Instead, use the environment variables:
+//            * AWS_ACCESS_KEY_ID
+//            * AWS_SECRET_ACCESS_KEY
+            "access_key": "",
+            "secret_key": "",
+
+            "tags": {
+//                Tags applied to the AMI that packer creates.
+                "role": "MiddleTier"
+            },
+            "run_tags": {
+//                Tags applied to the instance packer creates when building the AMI.
+                "role": "buildSystem"
+            },
+
+            "ssh_username": "ec2-user"
+        }
+    ]
+}

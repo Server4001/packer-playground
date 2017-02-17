@@ -1,0 +1,21 @@
+{
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "region": "us-west-2",
+            "source_ami": "ami-7cfe781c",
+            "instance_type": "t2.micro",
+            "ami_name": "test_{{isotime | clean_ami_name}}",
+            "ami_description": "Test AMI created by packer",
+            "tags": {
+                "built_by": "packer",
+                "Name": "test_{{isotime | clean_ami_name}}"
+            },
+            "run_tags": {
+                "role": "ami-builds",
+                "built_by": "packer"
+            },
+            "ssh_username": "ec2-user"
+        }
+    ]
+}

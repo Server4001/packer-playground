@@ -1,0 +1,12 @@
+{
+    "provisioners": [
+        {
+//            Each provisioner must have a type.
+            "type": "shell",
+            "script": "makeMyCowAwesome.sh",
+
+//            "only" controls which builder this provisioner will run with.
+            "only": ["MyCowServer-AWS"]
+        }
+    ]
+}
