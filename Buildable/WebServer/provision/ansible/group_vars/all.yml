@@ -1,0 +1,14 @@
+---
+# Nginx
+nginx_user: nginx
+nginx_group: nginx
+nginx_dir: /etc/nginx
+nginx_vhost_conf_dir: "{{ nginx_dir }}/conf.d"
+nginx_max_body_size: 25
+
+# PHP
+php_socket_file: /var/run/php-fpm/web.socket
+php_fpm_pool_dir: /etc/php-fpm.d
+
+# www
+www_log_dir: /var/log/www

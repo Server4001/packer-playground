@@ -6,11 +6,11 @@
             "source_ami": "ami-7cfe781c",
             "instance_type": "t2.micro",
             "ssh_username": "ec2-user",
-            "ami_name": "web-server-{{isotime | clean_ami_name}}",
+            "ami_name": "web-server",
             "ami_description": "Web server AMI using the LEMP stack with PHP 7",
             "tags": {
-                "Name": "web-server-{{isotime | clean_ami_name}}",
-                "built_by": "packer"
+                "built_by": "packer",
+                "built_on": "{{isotime}}"
             },
             "run_tags": {
                 "role": "build_system"
@@ -20,11 +20,17 @@
     "provisioners": [
         {
             "type": "shell",
-            "script": "{{template_dir}}/provision/ansible_install.sh"
+            "script": "{{template_dir}}/provision/bash/ansible_install.sh"
         },
         {
             "type": "ansible-local",
-            "playbook_file": "{{template_dir}}/provision/web-server.yml"
+            "playbook_file": "{{template_dir}}/provision/ansible/web-server.yml",
+            "group_vars": "{{template_dir}}/provision/ansible/group_vars",
+            "role_paths": [
+                "{{template_dir}}/provision/ansible/roles/common",
+                "{{template_dir}}/provision/ansible/roles/nginx",
+                "{{template_dir}}/provision/ansible/roles/php"
+            ]
         }
     ]
 }

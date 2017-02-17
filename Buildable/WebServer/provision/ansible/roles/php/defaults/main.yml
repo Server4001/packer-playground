@@ -1,0 +1,22 @@
+---
+php_packages:
+  - php70
+  - php70-cli
+  - php70-common
+  - php70-devel
+  - php70-fpm
+  - php70-gd
+  - php70-json
+  - php70-mbstring
+  - php70-mcrypt
+  - php70-mysqlnd
+  - php70-pdo
+  - php7-pear
+  - php70-process
+  - php70-xml
+
+php_fpm_max_children: 50
+php_fpm_start_servers: 5
+php_fpm_min_spare_servers: 5
+php_fpm_max_spare_servers: 35
+php_fpm_max_requests: 750

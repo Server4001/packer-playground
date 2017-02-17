@@ -1,0 +1,40 @@
+# {{ ansible_managed }}
+
+upstream webfpmsocket {
+    server unix:{{ php_socket_file }};
+}
+
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
+    server_name localhost myawesomesite.com;
+
+    client_max_body_size {{ nginx_max_body_size }}M;
+
+    access_log {{ www_log_dir }}/nginx-access.log main;
+    error_log {{ www_log_dir }}/nginx-error.log;
+
+    root /var/www/html/public;
+    index index.php index.html index.htm;
+
+    location ~ \.php(/|$) {
+        try_files $uri =404;
+
+        fastcgi_buffers 8 8k;
+        fastcgi_buffer_size 8k;
+
+        fastcgi_pass webfpmsocket;
+        fastcgi_index index.php;
+        include fastcgi.conf;
+
+        # httpoxy.org
+        fastcgi_param HTTP_PROXY "";
+    }
+
+    location @indexphp {
+        if (-f $document_root/index.php) { rewrite .* /index.php last; }
+    }
+
+    try_files $uri @indexphp;
+}
+

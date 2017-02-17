@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  force_handlers: true
+  any_errors_fatal: true
+
+  roles:
+    - common
+    - nginx
+    - php

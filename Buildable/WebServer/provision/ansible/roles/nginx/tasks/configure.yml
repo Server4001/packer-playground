@@ -1,0 +1,30 @@
+---
+- name: Copy the main nginx config
+  template:
+    src: nginx.conf.j2
+    dest: "{{ nginx_dir }}/nginx.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Reload Nginx
+
+- name: Create the www log dir
+  file:
+    path: "{{ www_log_dir }}"
+    state: directory
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_group }}"
+    mode: 0775
+
+# TODO : Remove confs added by nginx
+
+- name: Add the web vhost config
+  template:
+    src: web.conf.j2
+    dest: "{{ nginx_vhost_conf_dir }}/web.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Reload Nginx

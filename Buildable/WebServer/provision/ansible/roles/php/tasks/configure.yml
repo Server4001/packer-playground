@@ -1,0 +1,41 @@
+---
+- name: Copy the main php config
+  template:
+    src: php.ini.j2
+    dest: /etc/php.ini
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Reload PHP-FPM
+
+- name: Copy the www PHP-FPM pool config
+  template:
+    src: web-pool.conf.j2
+    dest: "{{ php_fpm_pool_dir }}/web.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Reload PHP-FPM
+
+- name: Remove nginx vhost configs added by PHP-FPM
+  file:
+    path: "{{ nginx_vhost_conf_dir }}/{{ item }}"
+    state: absent
+  with_items:
+    - php-fpm.conf
+    - php-fpm.conf-7.0
+    - virtual.conf
+  notify:
+    - Reload Nginx
+
+- name: Remove PHP-FPM pool configs added by PHP-FPM
+  file:
+    path: "{{ php_fpm_pool_dir }}/{{ item }}"
+    state: absent
+  with_items:
+    - www.conf
+    - php-fpm.conf
+  notify:
+    - Reload PHP-FPM
