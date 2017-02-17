@@ -6,9 +6,10 @@
             "source_ami": "ami-7cfe781c",
             "instance_type": "t2.micro",
             "ssh_username": "ec2-user",
-            "ami_name": "web-server",
+            "ami_name": "web-server-{{isotime | clean_ami_name}}",
             "ami_description": "Web server AMI using the LEMP stack with PHP 7",
             "tags": {
+                "Name": "web-server",
                 "built_by": "packer",
                 "built_on": "{{isotime}}"
             },
@@ -23,14 +24,28 @@
             "script": "{{template_dir}}/provision/bash/ansible_install.sh"
         },
         {
+            "type": "file",
+            "source": "{{template_dir}}/ansible.vault.password.txt",
+            "destination": "/tmp/ansible.vault.password.txt"
+        },
+        {
             "type": "ansible-local",
             "playbook_file": "{{template_dir}}/provision/ansible/web-server.yml",
             "group_vars": "{{template_dir}}/provision/ansible/group_vars",
             "role_paths": [
                 "{{template_dir}}/provision/ansible/roles/common",
+                "{{template_dir}}/provision/ansible/roles/composer",
                 "{{template_dir}}/provision/ansible/roles/nginx",
-                "{{template_dir}}/provision/ansible/roles/php"
+                "{{template_dir}}/provision/ansible/roles/php",
+                "{{template_dir}}/provision/ansible/roles/web"
+            ],
+            "extra_arguments": [
+                "--vault-password-file /tmp/ansible.vault.password.txt"
             ]
+        },
+        {
+            "type": "shell",
+            "script": "{{template_dir}}/provision/bash/remove_vault_password.sh"
         }
     ]
 }

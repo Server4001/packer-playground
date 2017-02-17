@@ -1,0 +1,19 @@
+---
+- name: Download composer binary
+  shell: curl -sS https://getcomposer.org/installer | php --define allow_url_fopen=on -- --install-dir=/usr/bin
+  args:
+    creates: "{{ composer_phar }}"
+
+- name: Make composer.phar executable
+  file:
+    path: "{{ composer_phar }}"
+    mode: a+x
+    state: file
+
+- name: Copy the composer wrapper script
+  template:
+    src: composer.sh.j2
+    dest: "{{ composer_bin }}"
+    owner: root
+    group: root
+    mode: 0755

@@ -1,0 +1,44 @@
+---
+- include_vars: secrets.yml
+
+- name: Ensure the web app root directory does not exist
+  file:
+    path: "{{ web_app_dir }}"
+    state: absent
+
+- name: Git clone the web application
+  git:
+    repo: "{{ web_app_repo }}"
+    dest: "{{ web_app_dir }}"
+    clone: yes
+    update: yes
+    version: "master"
+
+- name: Create the secret.php file
+  file:
+    path: "{{ web_app_dir }}/secret.php"
+    state: touch
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_group }}"
+    mode: 0644
+
+- name: Add the secret var to the web application
+  blockinfile:
+    dest: "{{ web_app_dir }}/secret.php"
+    block: |
+      <?php
+      echo 'This is the secret:<br>' . PHP_EOL;
+      echo '{{ web_app_secret_msg }}';
+
+- name: Ensure the web app has the correct permissions
+  file:
+    path: "{{ web_app_dir }}"
+    state: directory
+    recurse: yes
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_group }}"
+
+- name: Install the composer dependencies
+  shell: "{{ composer_bin }} install --optimize-autoloader --no-dev --quiet"
+  args:
+    chdir: "{{ web_app_dir }}"

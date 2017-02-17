@@ -17,8 +17,6 @@
     group: "{{ nginx_group }}"
     mode: 0775
 
-# TODO : Remove confs added by nginx
-
 - name: Add the web vhost config
   template:
     src: web.conf.j2

@@ -1,4 +1,8 @@
 ---
+# Composer
+composer_phar: /usr/bin/composer.phar
+composer_bin: /usr/bin/composer
+
 # Nginx
 nginx_user: nginx
 nginx_group: nginx
@@ -12,3 +16,4 @@ php_fpm_pool_dir: /etc/php-fpm.d
 
 # www
 www_log_dir: /var/log/www
+web_app_dir: /var/www/html

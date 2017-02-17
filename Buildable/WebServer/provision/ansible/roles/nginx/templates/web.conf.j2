@@ -14,7 +14,7 @@ server {
     access_log {{ www_log_dir }}/nginx-access.log main;
     error_log {{ www_log_dir }}/nginx-error.log;
 
-    root /var/www/html/public;
+    root {{ web_app_dir }}/public;
     index index.php index.html index.htm;
 
     location ~ \.php(/|$) {

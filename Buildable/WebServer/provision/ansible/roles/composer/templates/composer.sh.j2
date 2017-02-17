@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# {{ ansible_managed }}
+
+php --define allow_url_fopen=on {{ composer_phar }} $@

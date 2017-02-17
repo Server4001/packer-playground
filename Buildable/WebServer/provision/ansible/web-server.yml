@@ -10,3 +10,5 @@
     - common
     - nginx
     - php
+    - composer
+    - web

@@ -1,0 +1,5 @@
+---
+web_app_repo: https://github.com/Server4001/passgen.git
+
+# Variables held in Ansible Vault:
+web_app_secret_msg: "{{ _web_app_secret_msg }}"
