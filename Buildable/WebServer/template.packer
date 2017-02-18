@@ -9,7 +9,7 @@
             "ami_name": "web-server-{{isotime | clean_ami_name}}",
             "ami_description": "Web server AMI using the LEMP stack with PHP 7",
             "tags": {
-                "Name": "web-server",
+                "Name": "web-server-{{isotime | clean_ami_name}}",
                 "built_by": "packer",
                 "built_on": "{{isotime}}"
             },

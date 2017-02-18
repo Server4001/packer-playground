@@ -24,7 +24,8 @@
 
 - name: Add the secret var to the web application
   blockinfile:
-    dest: "{{ web_app_dir }}/secret.php"
+    dest: "{{ web_app_dir }}/docroot/secret.php"
+    marker: ""
     block: |
       <?php
       echo 'This is the secret:<br>' . PHP_EOL;
