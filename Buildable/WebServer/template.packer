@@ -1,9 +1,13 @@
 {
+    "_comment": "This builds a LEMP stack AMI, where the project at /var/www/html is my passgen repo. The base AMI is: amzn-ami-hvm-2018.03.0.20180412-x86_64-gp2",
+    "variables": {
+        "base_image_id": "ami-6b8cef13"
+    },
     "builders": [
         {
             "type": "amazon-ebs",
             "region": "us-west-2",
-            "source_ami": "ami-89a9c8e9",
+            "source_ami": "{{user `base_image_id`}}",
             "instance_type": "t2.micro",
             "ssh_username": "ec2-user",
             "ami_name": "web-server-{{isotime | clean_ami_name}}",
@@ -11,9 +15,11 @@
             "tags": {
                 "Name": "web-server-{{isotime | clean_ami_name}}",
                 "built_by": "packer",
-                "built_on": "{{isotime}}"
+                "built_on": "{{isotime}}",
+                "base_ami_id": "{{user `base_image_id`}}"
             },
             "run_tags": {
+                "Name": "packer-web-server-build",
                 "role": "build_system"
             }
         }
