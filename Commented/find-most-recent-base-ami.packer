@@ -1,0 +1,17 @@
+{
+    "builders": [{
+    //    "source_ami": "ami-529fb82a",
+    // Instead of using a hard-coded AMI id, you can use filters to find the most recent version of your base AMI.
+        "source_ami_filter": {
+            "filters": {
+                "virtualization-type": "hvm",
+                "root-device-type": "ebs",
+                "name": "ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"
+            },
+            "owners": ["0099720109477"],
+            "most_recent": true
+        },
+        "instance_type": "t2.micro",
+        ...
+    }]
+}
